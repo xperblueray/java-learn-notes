@@ -1,4 +1,4 @@
-package com.xperblueray.server;
+package com.xperblueray.socket.server;
 
 import java.io.IOException;
 import java.io.InputStream;
