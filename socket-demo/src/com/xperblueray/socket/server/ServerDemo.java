@@ -18,10 +18,11 @@ public class ServerDemo {
         ServerSocket serverSocket = new ServerSocket(8999);
         System.out.println("服务器已启动");
 
+        int i = 0;
         while(true) {
             // 监听客户端
             Socket socket = serverSocket.accept();
-            System.out.println("有客户端连接");
+            System.out.println("有客户端连接, 第" + ++i + "次连接");
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -33,7 +34,7 @@ public class ServerDemo {
     }
 
     private static void handle(Socket socket) {
-        System.out.println("线程ID" +
+        System.out.println("线程ID：" +
                 Thread.currentThread().getId() +
                 "    线程名称：" + Thread.currentThread().getName());
         try {
