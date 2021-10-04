@@ -11,7 +11,7 @@ public class CreateNode implements Watcher {
     private static ZooKeeper zooKeeper;
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-        zooKeeper = new ZooKeeper("192.168.0.106:2181", 5000, new CreateNode());
+        zooKeeper = new ZooKeeper("127.0.0.1:2181", 5000, new CreateNode());
 
         System.out.println(zooKeeper.getState());
         // 计数工具类  不让main方法结束让线程处于阻塞等待
@@ -24,7 +24,7 @@ public class CreateNode implements Watcher {
     /**
      * 创建节点
      */
-    private static void createNodeSync() throws InterruptedException, KeeperException {
+    private static void createNodeData() throws InterruptedException, KeeperException {
         /**
          * path ：节点创建的路径
          * data[] ：节点创建要保存的数据，是个byte类型的
@@ -41,15 +41,16 @@ public class CreateNode implements Watcher {
          String node = zookeeper.create(path,data,acl,createMode);
          */
         // 永久节点
-        String persistent = zooKeeper.create("/test-persistent", "持久节点内容".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+//        String persistent = zooKeeper.create("/test-persistent", "持久节点内容".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        String child_persistent = zooKeeper.create("/test-persistent/child01", "持久节点内容的儿子".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         // 临时节点
-        String ephemeral = zooKeeper.create("/test-ephemeral", "临时节点内容".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+//        String ephemeral = zooKeeper.create("/test-ephemeral", "临时节点内容".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
-        String persistent_sequential = zooKeeper.create("/test-persistent-sequential", "临时顺序节点内容".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT_SEQUENTIAL);
+//        String persistent_sequential = zooKeeper.create("/test-persistent-sequential", "临时顺序节点内容".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT_SEQUENTIAL);
 
-        System.out.println(persistent);
-        System.out.println(ephemeral);
-        System.out.println(persistent_sequential);
+//        System.out.println(persistent);
+//        System.out.println(ephemeral);
+//        System.out.println(persistent_sequential);
 
     }
 
@@ -66,7 +67,7 @@ public class CreateNode implements Watcher {
 //            countDownLatch.countDown();
 
             try {
-                createNodeSync();
+                createNodeData();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (KeeperException e) {
